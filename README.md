@@ -1,5 +1,3 @@
----
-
 ```markdown
 # 🧩 SPI Master-Slave Communication in SystemC
 
