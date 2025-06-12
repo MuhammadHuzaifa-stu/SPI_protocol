@@ -1,0 +1,5 @@
+build/
+*.vcd
+*.gtkw
+*.o
+spi_master_tb
