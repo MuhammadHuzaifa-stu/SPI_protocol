@@ -57,15 +57,16 @@ int sc_main(int argc, char* argv[]) {
     sc_trace(wf, mosi,           "mosi"          );
     sc_trace(wf, miso,           "miso"          );
 
-    sc_trace(wf, master.current_state, "current_state"    );
-    sc_trace(wf, master.next_state,    "next_state"    );
-    sc_trace(wf, master.data_save,     "data_save"    );
-    sc_trace(wf, master.data_tx,       "data_tx"    );
-    sc_trace(wf, master.data_count,       "data_count"    );
-    sc_trace(wf, master.data_end,       "data_end"    );
-    sc_trace(wf, master.clk_div,       "clk_div"    );
-    sc_trace(wf, master.clk_gen,       "clk_gen"    );
-    sc_trace(wf, master.clk_gen_cmpl,       "clk_gen_cmpl"    );
+    // -- Additional signals for debugging purpose
+    // sc_trace(wf, master.current_state, "current_state"    );
+    // sc_trace(wf, master.next_state,    "next_state"       );
+    // sc_trace(wf, master.data_save,     "data_save"        );
+    // sc_trace(wf, master.data_tx,       "data_tx"          );
+    // sc_trace(wf, master.data_count,    "data_count"       );
+    // sc_trace(wf, master.data_end,      "data_end"         );
+    // sc_trace(wf, master.clk_div,       "clk_div"          );
+    // sc_trace(wf, master.clk_gen,       "clk_gen"          );
+    // sc_trace(wf, master.clk_gen_cmpl,  "clk_gen_cmpl"     );
 
 
     // Initialize all variables
@@ -92,13 +93,8 @@ int sc_main(int argc, char* argv[]) {
     // Wait for transaction to complete
     cout << "@" << sc_time_stamp() << endl;
     cout << "Waiting for transaction to complete..." << endl;
-    // while (!bsy.read()) {
-    //     cout << "Entered While Loop" << endl;
-    //     sc_start(10, SC_NS);
-    //     cout << "@" << sc_time_stamp() << " -> MOSI = " << mosi.read() << endl;
-    // }
-
-    for (int i = 0; i < 1000; i++) {
+    sc_start(10, SC_NS);
+    while (!bsy.read()) {
         sc_start(10, SC_NS);
     }
 
