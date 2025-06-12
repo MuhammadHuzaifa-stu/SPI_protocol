@@ -22,15 +22,15 @@ This repository contains a SystemC-based implementation of an SPI (Serial Periph
 
 ```
 
-.
-├── include/                 # Header files (spi\_master.h, etc.)
-├── src/                     # Source files (spi\_master.cpp, etc.)
-├── verif/                   # Testbench files (tb\_spi\_master.cpp)
-├── doc/                     # Documentation and design specs
-│   └── specification.pdf    # SPI protocol design reference
-├── build/                   # Compiled output target (created during build)
-├── Makefile                 # Build system
-└── README.md                # Project overview
+- `include/` – Header files (`spi_master.h`, etc.)
+- `src/` – Source files (`spi_master.cpp`, etc.)
+- `verif/` – Testbench files (`tb_spi_master.cpp`)
+- `doc/` – Documentation and design specs
+  - `specification.pdf` – SPI protocol design reference
+- `build/` – Compiled output target (created during build)
+- `Makefile` – Build system
+- `README.md` – Project overview
+
 
 ````
 
