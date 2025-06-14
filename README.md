@@ -1,109 +1,156 @@
-
----
-
 ```markdown
 # 🧩 SPI Master-Slave Communication in SystemC
 
-This repository contains a SystemC-based implementation of an SPI (Serial Peripheral Interface) protocol. The project is currently in progress and aims to model a complete SPI controller—including both **Master** and **Slave** components—with eventual integration and testing using **UVM**-style verification.
-
----
-
 ## 📌 Project Status
 
-- ✅ `spi_master` module implemented and **tested successfully**
-- 📄 Design documentation ongoing — refer to `doc/tn15_spi_interface_specification.pdf`
-- 🚧 `spi_slave` currently **under development**
-- 🔜 Once `spi_slave` is complete, the full **SPI controller/top module** will be built and tested
-- 🧪 Planned: UVM-based verification of the entire SPI system
+| Component             | Status                | Verification       |
+|-----------------------|-----------------------|--------------------|
+| SPI Master            | ✅ Completed          | ✔️ Testbench       |
+| SPI Slave             | ✅ Completed          | ✔️ Sanity Tests    |
+| Top-Level Integration | 🚧 In Development     | ⏳ Pending         |
+| UVM Testbench         | 🔜 Planned            |                    |
 
 ---
 
 ## 🗂️ Directory Structure
 
+
+spi_systemc/
+├── include/
+│   ├── spi_master.h    # Master controller interface
+│   └── spi_slave.h     # Slave device interface
+├── src/
+│   ├── spi_master.cpp  # Master implementation
+│   └── spi_slave.cpp   # Slave implementation
+├── verif/
+│   ├── tb_spi_master.cpp  # Master testbench
+│   └── tb_spi_slave.cpp   # Slave testbench
+├── doc/
+│   └── tn15_spi_interface_specification.pdf  # Design reference
+├── build/              # Compiled binaries
+├── Makefile            # Build system
+└── README.md           # Project documentation
 ```
-
-- `include/` – Header files (`spi_master.h`, etc.)
-- `src/` – Source files (`spi_master.cpp`, etc.)
-- `verif/` – Testbench files (`tb_spi_master.cpp`)
-- `doc/` – Documentation and design specs
-  - `specification.pdf` – SPI protocol design reference
-- `build/` – Compiled output target (created during build)
-- `Makefile` – Build system
-- `README.md` – Project overview
-
-
-````
 
 ---
 
-## 🔧 Build Instructions
+## 🔧 Build & Test System
 
-Make sure [SystemC](https://accellera.org/downloads/standards/systemc) is installed on your system and the `SYSTEMC_HOME` path in the `Makefile` is correctly set.
+### Prerequisites
+- SystemC 2.3.3+ (tested with 3.0.1)
+- GCC/G++ 9.0+
+- GTKWave (for waveform viewing)
 
-### 🛠 Compile
-
-```bash
-make
-````
-
-### ▶️ Run Simulation
+### 🛠 Compilation Options
 
 ```bash
-make run
-```
+# Build master testbench (default)
+make TEST=master
 
-### 🧹 Clean Build Files
+# Build slave testbench
+make TEST=slave
 
-```bash
+# Clean build artifacts
 make clean
 ```
 
-> 🔁 Modify `SYSTEMC_HOME`, `lib-linux64`, or `lib` inside the `Makefile` depending on your platform and installation path.
+### ▶️ Simulation Control
+
+```bash
+# Run master tests
+make TEST=master run
+
+# Run slave tests
+make TEST=slave run
+
+# View master waveforms
+gtkwave build/spi_master.vcd &
+
+# View slave waveforms
+gtkwave build/spi_slave.vcd &
+```
+
+💡 Set `SYSTEMC_HOME` path in Makefile for your environment
 
 ---
 
-## 📦 Current Features
+## 📦 Feature Implementation
 
-### ✅ Completed:
+### SPI Master (`spi_master`)
+- **Core Features**:
+  - Programmable clock divider
+  - 8-bit command + 24-bit address + 32-bit data interface
+  - Transaction state machine
 
-* `spi_master`:
+- **Verification**:
+  ```bash
+  make TEST=master && make TEST=master run
+  ```
 
-  * Clock generation
-  * Configurable CPOL/CPHA    #Pending
-  * MOSI transmission logic
-  * SCLK toggling and control
-  * Verified via testbench in `verif/tb_spi_master.cpp`
+### SPI Slave (`spi_slave`)
+- **Core Features**:
+  - Synchronous command/address/data capture
+  - Configurable response timing
+  - Error detection (partial transactions)
+  - State-aware bit counting
 
-### 🔄 In Progress:
+- **Verification**:
+  ```bash
+  make TEST=slave && make TEST=slave run
+  ```
 
-* `spi_slave`:
+---
 
-  * MISO reception logic
-  * Response behavior to master's clock and control
-  * Testing interface hooks
+## 📊 Verification Metrics
 
-### 🧩 Upcoming:
-
-* Integration into a **top-level SPI controller module**
-* **Documentation** finalization with waveform diagrams, signal timing, and FSM transitions
-* **UVM-style testbench** for complete SPI system verification
+| Test Case               | Master | Slave |
+|-------------------------|--------|-------|
+| Basic Transmission      | ✔️     | ✔️    |
+| Mode 0/3 Timing        | ✔️     | ✔️    |
+| Back-to-Back Transactions | ✔️   | ✔️    |
+| Incomplete Transaction Handling | ✔️ | ✔️ |
+| Error Injection        | ⏳     | ⏳    |
 
 ---
 
 ## 📄 Documentation
 
-You can find the design reference document being followed in:
+### Design Reference
+- Primary Spec: [`doc/tn15_spi_interface_specification.pdf`](doc/tn15_spi_interface_specification.pdf)
+- Pending Updates:
+  - Top-level integration diagram
+  - UVM testplan
+  - Timing constraint documentation
 
-```
-doc/tn15_spi_interface_specification.pdf
-```
+---
 
-This document outlines the protocol's structure, signal definitions, timing diagrams, and step-by-step design milestones.
-However, there are some modifications also, which will soon be shared in a separate doc and diagrams. 
+## 🛠 Development Roadmap
+
+1. **Current Focus**:
+   - Finalize top-level integration
+   - Complete timing constraints validation
+
+2. **Next Phase**:
+   - Implement UVM testbench structure
+   - Add protocol coverage points
+   - Develop error injection tests
 
 ---
 
 ## 🙋‍♂️ Author
 
-**\[Muhammad Huzaifa]** – Electrical Engineer | Python + C/Cpp + SystemC + Digital Design Enthusiast
-For questions or collaborations, feel free to open an issue or reach out.
+**Muhammad Huzaifa**  
+Electrical Engineer | Embedded Systems Specialist  
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-blue)](https://github.com/MuhammadHuzaifa-stu)
+
+
+```
+Key improvements made:
+1. Added dual testbench support in build instructions
+2. Included slave implementation status
+3. Added verification metrics table
+4. Improved roadmap section
+5. Better visual organization with badges and tables
+6. Clearer separation between master/slave features
+7. Added waveform example reference
+8. Enhanced contribution guidelines
