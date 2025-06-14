@@ -152,7 +152,7 @@ void spi_master::output_logic() {
         case MASTER_ENABLE:
             cs.write(0);
             sck.write(clk_gen.read());
-            mosi.write(0);
+            mosi.write(1);
             break;
         case MASTER_DATA:
             cs.write(0);

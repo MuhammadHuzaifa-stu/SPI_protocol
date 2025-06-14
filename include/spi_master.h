@@ -1,5 +1,5 @@
-#ifndef COUNTER_H
-#define COUNTER_H
+#ifndef SPI_MASTER
+#define SPI_MASTER
 
 #include <systemc.h>
 
@@ -104,4 +104,4 @@ SC_MODULE(spi_master) {
     }
 };
 
-#endif // COUNTER_H
+#endif // SPI_MASTER
